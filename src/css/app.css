@@ -1,0 +1,65 @@
+.App {
+    padding: 13px 0px 0px 450px;
+  }
+  .bsal{
+    padding: 0px 6px 0px 17px;
+  }
+  .form{
+   padding: 13px 0px 0px 450px;
+  }
+  .hrarec{
+    padding: 0px 5px 0 3px;
+  }
+  .arp{
+    padding: 1px 3px 0px 0px;
+    margin-left: -5px;
+  }
+  .city{
+    padding: 1px 3px 0px 0px;
+    margin-left: -47px;
+  }
+  .hraexem{
+    padding: 4px 3px 3px 1px;
+    margin-left: -45px;
+  }
+  .speall{
+    padding: 0px 5px 0px 0px;
+    margin-left: -9px;
+  }
+  .lta{
+    padding: 0px 9px 0px 17px;
+  }
+  .osi{
+    padding: 0px 5px 0px 0px;
+    margin-left: -24px;
+  }
+  .sd{
+    padding: 0px 9px 0px 0px;
+    margin-left: -18px;
+  }
+  .c80{
+    padding: 0px 9px 0px 13px;
+  }
+  .cc80{
+    padding: 0px 7px 0px 5px;
+  }
+  .d80{
+    padding: 0px 8px 0px 15px;
+  }
+  .tta80{
+    padding: 0px 6px 0px 0px;
+  }
+  .hi{
+    margin-left: 795px;
+  }
+  .link{
+    margin-left: 895px;
+  }
+
+  .all-fields{
+   
+  }
+
+  .custom-text-field{
+    padding: 1% 1% 1% 1% !important
+  }
