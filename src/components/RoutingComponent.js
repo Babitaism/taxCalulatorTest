@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import OldRegime from "./OldRegime";
+import IncomeTax from "./IncomeTax";
 import NoPage from "./NoPage";
 import routing from "../configuration/routing.js";
-import NewRegime from "./NewRegime";
+
 
 function RoutingComponent(props) {
 
@@ -23,12 +23,7 @@ function RoutingComponent(props) {
         <Route
         key={"abc-incometax"}
         path="/"
-        element={<OldRegime/>}
-      />,
-      <Route
-        key={"abc-incometax"}
-        path="/newregime"
-        element={<NewRegime/>}
+        element={<IncomeTax/>}
       />,
       <Route
       key={"abc-incometax"}
