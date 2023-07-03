@@ -18,18 +18,17 @@ function IncomeTax() {
   const [ltaBilled, setLtaBilled] = React.useState(false);
   const infoRef = React.useRef({});
 
-
   let key = 0;
   let allFields = [];
 
   for (let i in oldRegimeInputFactors) {
     let field = oldRegimeInputFactors[i];
+    console.log(field,"field")
     if (field.htmlTAg === "input" && (field.key !== "ltaBilled" || ltaBilled)) {
       allFields.push(
         <TextField
           onBlur={(e) => onBlurField(field.key, e.target.value)}
           type={field.type}
-          inputProps={{ min: 10, max: 100 }}
           key={key++}
           label={field.text}
           onChange={(e) => gatherInfo(field.key, e.target.value, field.max)}
@@ -38,15 +37,15 @@ function IncomeTax() {
       );
 
       if (field.key === "80C") {
-        allFields.push(<pre className="max-limit">{eightyC}</pre>);
+        allFields.push(<pre className="max-limit" key ='80c'>{eightyC}</pre>);
       }
 
       if (field.key === "80CCD") {
-        allFields.push(<pre className="max-limit">{eightyCCD}</pre>);
+        allFields.push(<pre className="max-limit" key ='80ccd'>{eightyCCD}</pre>);
       }
 
       if (field.key === "ltaBilled") {
-        allFields.push(<pre className="max-limit">{ltaBilledValue}</pre>);
+        allFields.push(<pre className="max-limit" key ='ltaBilled'>{ltaBilledValue}</pre>);
       }
     }
   }
@@ -68,8 +67,18 @@ function IncomeTax() {
       value = max;
     }
 
+    if (key === "80C" && value < max) {
+      setEightyC("");
+      value = max;
+    }
+
     if (key === "80CCD" && value > max) {
       setEightyCCD(`Max value allowed: ${max}`);
+      value = max;
+    }
+
+    if (key === "80CCD" && value < max) {
+      setEightyCCD("");
       value = max;
     }
 
@@ -116,7 +125,7 @@ function IncomeTax() {
       if (field.htmlTAg === "radio") {
         for (let j in field.values) {
           radioButtons.push(
-            <Radio label={field.values[j]} key={field.values[j]} />
+            <Radio label={field.values[j]} key={field.values[j]}  />
           );
         }
       }

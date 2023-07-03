@@ -2,5 +2,12 @@
     color: red;
   }
   .custom-text-field{
-    padding: 1% 1% 1% 1% !important
+    padding: 1% 1% 1% 1% !important;
+    display: flex !important
+  }
+
+  .all-fields {
+    width: 50%;
+    margin-left: 28%;
+    margin-top: 3%
   }
