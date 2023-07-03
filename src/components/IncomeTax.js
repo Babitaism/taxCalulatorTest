@@ -9,6 +9,7 @@ import Stack from "@mui/material/Stack";
 import OldRegimeCalulator from "../utils/oldRegimeCalulator";
 import NewRegimeCalulator from "../utils/newRegimeCalculator";
 
+
 function IncomeTax() {
   const [num, setNum] = React.useState(0);
   const [tax, setTax] = React.useState(false);
@@ -16,6 +17,7 @@ function IncomeTax() {
   const [eightyCCD, setEightyCCD] = React.useState("");
   const [ltaBilledValue, setLtaBilledValue] = React.useState("");
   const [ltaBilled, setLtaBilled] = React.useState(false);
+  const [citymsg, setCitymsg] = React.useState("");
   const infoRef = React.useRef({});
 
   let key = 0;
@@ -23,7 +25,6 @@ function IncomeTax() {
 
   for (let i in oldRegimeInputFactors) {
     let field = oldRegimeInputFactors[i];
-    console.log(field,"field")
     if (field.htmlTAg === "input" && (field.key !== "ltaBilled" || ltaBilled)) {
       allFields.push(
         <TextField
@@ -37,15 +38,27 @@ function IncomeTax() {
       );
 
       if (field.key === "80C") {
-        allFields.push(<pre className="max-limit" key ='80c'>{eightyC}</pre>);
+        allFields.push(
+          <pre className="error" key="80c">
+            {eightyC}
+          </pre>
+        );
       }
 
       if (field.key === "80CCD") {
-        allFields.push(<pre className="max-limit" key ='80ccd'>{eightyCCD}</pre>);
+        allFields.push(
+          <pre className="error" key="80ccd">
+            {eightyCCD}
+          </pre>
+        );
       }
 
       if (field.key === "ltaBilled") {
-        allFields.push(<pre className="max-limit" key ='ltaBilled'>{ltaBilledValue}</pre>);
+        allFields.push(
+          <pre className="error" key="ltaBilled">
+            {ltaBilledValue}
+          </pre>
+        );
       }
     }
   }
@@ -53,7 +66,6 @@ function IncomeTax() {
   const onBlurField = (key, value) => {
     if (key === "ltaReceived" && value !== "") {
       setLtaBilled(true);
-
     }
     if (key === "ltaReceived" && value === "") {
       setLtaBilled(false);
@@ -61,10 +73,13 @@ function IncomeTax() {
   };
 
   const gatherInfo = (key, value, max) => {
-
     if (key === "80C" && value > max) {
       setEightyC(`Max value allowed: ${max}`);
       value = max;
+    }
+
+    if(key === 'city' && value != ''){
+      setCitymsg('')
     }
 
     if (key === "80C" && value < max) {
@@ -82,17 +97,24 @@ function IncomeTax() {
       value = max;
     }
 
-    if (key === "ltaBilled" && parseInt(infoRef.current.ltaReceived) < parseInt(value)) {
+    if (
+      key === "ltaBilled" &&
+      parseInt(infoRef.current.ltaReceived) < parseInt(value)
+    ) {
       let max = infoRef.current.ltaReceived;
-      setLtaBilledValue(`You cannot exceed LTA Billed Value more than LTA Received and that is ${max}`);
+      setLtaBilledValue(
+        `You cannot exceed LTA Billed Value more than LTA Received and that is ${max}`
+      );
       value = max;
     }
 
-    if (key === "ltaBilled" && parseInt(infoRef.current.ltaReceived) > parseInt(value)) {
+    if (
+      key === "ltaBilled" &&
+      parseInt(infoRef.current.ltaReceived) > parseInt(value)
+    ) {
       let max = infoRef.current.ltaReceived;
       setLtaBilledValue("");
       value = max;
-    
     }
 
     infoRef.current[key] = value;
@@ -100,23 +122,26 @@ function IncomeTax() {
   };
 
   const calculateTax = () => {
+     // TODO:: Take it from oldRegimeFactorMapping array
+    if (!['Non Metro', 'Metro'].includes(infoRef.current.city)) {
+      setCitymsg("You have not choosen city, and choosing city is mandatory");
+      return
+    }
+
     let oldRegimeObj = new OldRegimeCalulator(infoRef.current);
     let finalTax = oldRegimeObj.calculateTax();
-    console.log("ref", infoRef);
-    console.log("finaltax", finalTax);
     setNum(finalTax);
     setTax(true);
   };
 
-  const calculateTaxNewRegime =()=>{
+  const calculateTaxNewRegime = () => {
     let newRegimeObj = new NewRegimeCalulator(infoRef.current);
     let finalTax = newRegimeObj.calculateIncomeTax();
     console.log("refnew", infoRef);
     console.log("finaltaxnew", finalTax);
     setNum(finalTax);
     setTax(true);
-  }
-
+  };
 
   const printRadio = () => {
     let radioButtons = [];
@@ -125,7 +150,7 @@ function IncomeTax() {
       if (field.htmlTAg === "radio") {
         for (let j in field.values) {
           radioButtons.push(
-            <Radio label={field.values[j]} key={field.values[j]}  />
+            <Radio label={field.values[j]} key={field.values[j]} />
           );
         }
       }
@@ -139,6 +164,7 @@ function IncomeTax() {
         onChange={(e) => gatherInfo("city", e.target.value)}
       >
         {radioButtons}
+        { citymsg.length != 0 && <pre className="error">{citymsg}</pre>}
       </RadioGroup>
     );
   };
@@ -166,7 +192,7 @@ function IncomeTax() {
         </Button>
       </Stack>
       <br></br>
-     <h3> {tax && <div>Total tax: {num} </div>}</h3>
+      <h3> {tax && <div>Total tax: {num} </div>}</h3>
     </div>
   );
 }

@@ -40,7 +40,6 @@ export default class OldRegimeCalulator {
   
     allDeduction() {
       let hraDeductable = this.hraExemption();
-      console.log(hraDeductable,"hraded")
       let standardDeduction = 50000;
       this.totaDeduction =
         this.eightyC +
