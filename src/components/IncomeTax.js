@@ -8,6 +8,7 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import OldRegimeCalulator from "../utils/oldRegimeCalulator";
 import NewRegimeCalulator from "../utils/newRegimeCalculator";
+import Modal from './Modal'
 
 
 function IncomeTax() {
@@ -18,7 +19,13 @@ function IncomeTax() {
   const [ltaBilledValue, setLtaBilledValue] = React.useState("");
   const [ltaBilled, setLtaBilled] = React.useState(false);
   const [citymsg, setCitymsg] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+ 
   const infoRef = React.useRef({});
+
+  const test = (arg) =>{
+    setOpen(arg)
+  }
 
   let key = 0;
   let allFields = [];
@@ -78,7 +85,7 @@ function IncomeTax() {
       value = max;
     }
 
-    if(key === 'city' && value != ''){
+    if(key === 'city' && value !== ''){
       setCitymsg('')
     }
 
@@ -122,7 +129,6 @@ function IncomeTax() {
   };
 
   const calculateTax = () => {
-     // TODO:: Take it from oldRegimeFactorMapping array
     if (!['Non Metro', 'Metro'].includes(infoRef.current.city)) {
       setCitymsg("You have not choosen city, and choosing city is mandatory");
       return
@@ -132,15 +138,15 @@ function IncomeTax() {
     let finalTax = oldRegimeObj.calculateTax();
     setNum(finalTax);
     setTax(true);
+    setOpen(true)
   };
 
   const calculateTaxNewRegime = () => {
     let newRegimeObj = new NewRegimeCalulator(infoRef.current);
     let finalTax = newRegimeObj.calculateIncomeTax();
-    console.log("refnew", infoRef);
-    console.log("finaltaxnew", finalTax);
     setNum(finalTax);
     setTax(true);
+    setOpen(true)
   };
 
   const printRadio = () => {
@@ -164,7 +170,7 @@ function IncomeTax() {
         onChange={(e) => gatherInfo("city", e.target.value)}
       >
         {radioButtons}
-        { citymsg.length != 0 && <pre className="error">{citymsg}</pre>}
+        { citymsg.length !== 0 && <pre className="error">{citymsg}</pre>}
       </RadioGroup>
     );
   };
@@ -180,7 +186,7 @@ function IncomeTax() {
             calculateTax();
           }}
         >
-          Calculate As Per Old Regime
+         Calculate As Per Old Regime
         </Button>
         <Button
           variant="contained"
@@ -192,7 +198,9 @@ function IncomeTax() {
         </Button>
       </Stack>
       <br></br>
-      <h3> {tax && <div>Total tax: {num} </div>}</h3>
+       <Modal open={open} message={num}
+            test={test}
+      />  
     </div>
   );
 }
