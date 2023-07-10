@@ -31,10 +31,10 @@ export default function BasicModal(props) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
+           Your Income Tax is
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Your IncomeTax is {props.message}
+            {props.message}
           </Typography>
         </Box>
       </Modal>

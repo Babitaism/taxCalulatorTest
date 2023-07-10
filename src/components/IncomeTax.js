@@ -9,7 +9,7 @@ import Stack from "@mui/material/Stack";
 import OldRegimeCalulator from "../utils/oldRegimeCalulator";
 import NewRegimeCalulator from "../utils/newRegimeCalculator";
 import Modal from './Modal'
-
+import PositionedSnackbar from "./Snackbar";
 
 function IncomeTax() {
   const [num, setNum] = React.useState(0);
@@ -20,7 +20,11 @@ function IncomeTax() {
   const [ltaBilled, setLtaBilled] = React.useState(false);
   const [citymsg, setCitymsg] = React.useState("");
   const [open, setOpen] = React.useState(false);
- 
+  const [state, setState] = React.useState({
+    vertical: 'top',
+    horizontal: 'center',
+  });
+  const { vertical, horizontal} = state;
   const infoRef = React.useRef({});
 
   const test = (arg) =>{
@@ -198,9 +202,8 @@ function IncomeTax() {
         </Button>
       </Stack>
       <br></br>
-       <Modal open={open} message={num}
-            test={test}
-      />  
+      <PositionedSnackbar  message = {num} open={open} test={test}/>
+       {/* <Modal open={open} message={num} test={test} /> */}
     </div>
   );
 }
